@@ -446,6 +446,22 @@
 
   filter: none;
 }
+    /* CJNINE MAIN CONTINUOUS BACKGROUND */
+body {
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.10),
+      rgba(0, 0, 0, 0.10)
+    ),
+    url('/cjnine-bg.png.png') center top / cover fixed no-repeat;
+}
+
+/* ทำให้ส่วนเนื้อหาหลักเห็นพื้นหลังแผ่นเดียวกัน */
+main,
+main > section,
+.info-section {
+  background: transparent !important;
+}
   </style>
 
   <script type="application/ld+json">
