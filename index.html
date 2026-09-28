@@ -386,6 +386,19 @@
         flex-direction: column;
       }
     }
+  /* CJNINE Logo */
+.logo img {
+    display: block;
+    width: 170px;
+    height: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 650px) {
+    .logo img {
+        width: 120px;
+    }
+}
   </style>
 
   <script type="application/ld+json">
@@ -403,7 +416,9 @@
 
 <header>
   <div class="container navbar">
-    <a class="logo" href="/" aria-label="CJNINE หน้าแรก">CJNINE</a>
+<a class="logo" href="/" aria-label="CJNINE หน้าแรก">
+  <img src="/logo.png.webp" alt="CJNINE">
+</a>
 
     <nav aria-label="เมนูหลัก">
       <a href="/">หน้าแรก</a>
