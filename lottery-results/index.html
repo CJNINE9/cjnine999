@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ผลหวยล่าสุด | CJNINE</title>
+  <meta name="description" content="ตรวจผลหวยล่าสุด รวมผลหวยรัฐบาล หวยลาว หวยฮานอย หวยมาเลย์ และผลหวยหุ้น อัปเดตผลล่าสุด">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, "Noto Sans Thai", sans-serif;
+      background:
+        radial-gradient(circle at top, #35100d 0%, #140605 42%, #050505 100%);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5,5,5,.94);
+      border-bottom: 1px solid rgba(212,175,55,.25);
+      backdrop-filter: blur(12px);
+    }
+
+    .navbar {
+      max-width: 1250px;
+      margin: auto;
+      min-height: 82px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .logo img {
+      display: block;
+      width: 170px;
+      height: auto;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 25px;
+      flex: 1;
+    }
+
+    nav a {
+      color: #eee;
+      text-decoration: none;
+      font-size: 15px;
+      transition: .2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #e8bd4f;
+    }
+
+    .actions {
+      display: flex;
+      gap: 9px;
+    }
+
+    .btn {
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .btn-login {
+      color: #e8bd4f;
+      border: 1px solid #b78c2e;
+    }
+
+    .btn-register {
+      color: #160b00;
+      background: linear-gradient(135deg,#f4d276,#b88722);
+    }
+
+    /* PAGE */
+    .hero {
+      padding: 65px 20px 35px;
+      text-align: center;
+    }
+
+    .hero .tag {
+      display: inline-block;
+      color: #d8ad48;
+      border: 1px solid rgba(216,173,72,.35);
+      border-radius: 30px;
+      padding: 7px 15px;
+      margin-bottom: 17px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px,5vw,52px);
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+      color: #e6b94d;
+    }
+
+    .hero p {
+      color: #aaa;
+      font-size: 15px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 10px 20px 80px;
+    }
+
+    .section-title {
+      margin: 38px 0 16px;
+      padding-left: 13px;
+      border-left: 4px solid #d6a83d;
+      font-size: 22px;
+      color: #f2d17a;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .lottery-card {
+      background: linear-gradient(145deg,rgba(42,13,10,.95),rgba(15,8,7,.98));
+      border: 1px solid rgba(205,159,52,.25);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .lottery-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(232,185,77,.6);
+    }
+
+    .card-title {
+      padding: 15px 17px;
+      background: rgba(125,27,19,.22);
+      border-bottom: 1px solid rgba(205,159,52,.18);
+      font-size: 17px;
+      font-weight: 700;
+      color: #f3cf70;
+    }
+
+    .draw-date {
+      color: #777;
+      font-size: 12px;
+      font-weight: 400;
+      margin-top: 4px;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+    }
+
+    .number-box {
+      padding: 18px 10px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+
+    .number-box:last-child {
+      border-right: 0;
+    }
+
+    .number-label {
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .number {
+      color: #fff;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .government .numbers {
+      grid-template-columns: repeat(4,1fr);
+    }
+
+    .government {
+      grid-column: 1 / -1;
+    }
+
+    .government .number {
+      color: #f1c75f;
+    }
+
+    .lao-set .numbers {
+      grid-template-columns: 1fr;
+    }
+
+    footer {
+      text-align: center;
+      border-top: 1px solid rgba(212,175,55,.15);
+      padding: 30px 20px;
+      color: #777;
+      font-size: 13px;
+      background: #050505;
+    }
+
+    @media (max-width: 950px) {
+      nav {
+        display: none;
+      }
+
+      .results-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .navbar {
+        min-height: 68px;
+        padding: 8px 12px;
+      }
+
+      .logo img {
+        width: 115px;
+      }
+
+      .actions .btn {
+        height: 36px;
+        padding: 0 10px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 45px;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .government {
+        grid-column: auto;
+      }
+
+      .government .numbers {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+
+    <a class="logo" href="/" aria-label="CJNINE หน้าแรก">
+      <img src="/logo.png.webp" alt="CJNINE">
+    </a>
+
+    <nav aria-label="เมนูหลัก">
+      <a href="/">หน้าหลัก</a>
+      <a href="/lottery-results" class="active">ผลหวย</a>
+      <a href="/lottery/thai">ข้อมูลหวย</a>
+      <a href="/promotions">โปรโมชั่น</a>
+      <a href="/articles">บทความ</a>
+      <a href="/contact">ติดต่อ</a>
+    </nav>
+
+    <div class="actions">
+      <a href="#" class="btn btn-login">เข้าสู่ระบบ</a>
+      <a href="#" class="btn btn-register">สมัครสมาชิก</a>
+    </div>
+
+  </div>
+</header>
+
+<section class="hero">
+  <div class="tag">CJNINE • LOTTERY RESULTS</div>
+  <h1>ผลหวย<span>ล่าสุด</span></h1>
+  <p>รวมผลหวยล่าสุด ตรวจสอบผลแต่ละรายการได้ในหน้าเดียว</p>
+</section>
+
+<main>
+
+  <!-- สลากไทย -->
+  <h2 class="section-title">สลากไทย</h2>
+
+  <div class="results-grid">
+
+    <article class="lottery-card government">
+      <div class="card-title">
+        หวยรัฐบาล
+        <div class="draw-date">งวดล่าสุด</div>
+      </div>
+
+      <div class="numbers">
+        <div class="number-box">
+          <div class="number-label">รางวัลที่หนึ่ง</div>
+          <div class="number">------</div>
+        </div>
+
+        <div class="number-box">
+          <div class="number-label">สามตัวหน้า</div>
+          <div class="number">--- / ---</div>
+        </div>
+
+        <div class="number-box">
+          <div class="number-label">สามตัวท้าย</div>
+          <div class="number">--- / ---</div>
+        </div>
+
+        <div class="number-box">
+          <div class="number-label">สองตัวล่าง</div>
+          <div class="number">--</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="lottery-card">
+      <div class="card-title">หวยออมสิน<div class="draw-date">งวดล่าสุด</div></div>
+      <div class="numbers">
+        <div class="number-box"><div class="number-label">สามตัวบน</div><div class="number">---</div></div>
+        <div class="number-box"><div class="number-label">สองตัวล่าง</div><div class="number">--</div></div>
+      </div>
+    </article>
+
+    <article class="lottery-card">
+      <div class="card-title">หวยธ.ก.ส.<div class="draw-date">งวดล่าสุด</div></div>
+      <div class="numbers">
+        <div class="number-box"><div class="number-label">สามตัวบน</div><div class="number">---</div></div>
+        <div class="number-box"><div class="number-label">สองตัวล่าง</div><div class="number">--</div></div>
+      </div>
+    </article>
+
+  </div>
+
+
+  <!-- หวยลาว -->
+  <h2 class="section-title">หวยลาว</h2>
+
+  <div class="results-grid">
+
+    <article class="lottery-card lao-set">
+      <div class="card-title">หวยลาวชุด<div class="draw-date">งวดล่าสุด</div></div>
+      <div class="numbers">
+        <div class="number-box"><div class="number-label">เลขสี่ตัว</div><div class="number">----</div></div>
+      </div>
+    </article>
+
+    <article class="lottery-card">
+      <div class="card-title">หวยลาว<div class="draw-date">งวดล่าสุด</div></div>
+      <div class="numbers">
+        <div class="number-box"><div class="number-label">สามตัวบน</div><div class="number">---</div></div>
+        <div class="number-box"><div class="number-label">สองตัวล่าง</div><div class="number">--</div></div>
+      </div>
+    </article>
+
+    <article class="lottery-card">
+      <div class="card-title">หวยลาวสตาร์<div class="draw-date">งวดล่าสุด</div></div>
+      <div class="numbers">
+        <div class="number-box"><div class="number-label">สามตัวบน</div><div class="number">---</div></div>
+        <div class="number-box"><div class="number-label">สองตัวล่าง</div><div class="number">--</div></div>
+      </div>
+    </article>
+
+  </div>
+
+
+  <!-- หวยฮานอยและมาเลย์ -->
+  <h2 class="section-title">หวยฮานอยและมาเลย์</h2>
+
+  <div class="results-grid" id="foreign-results"></div>
+
+
+  <!-- หวยหุ้น -->
+  <h2 class="section-title">หวยหุ้น</h2>
+
+  <div class="results-grid" id="stock-results"></div>
+
+</main>
+
+<footer>
+  © CJNINE • ข้อมูลผลหวยเพื่อการตรวจสอบผลเท่านั้น
+</footer>
+
+
+<script>
+  const foreignLotteries = [
+    "หวยฮานอย",
+    "หวยฮานอยพิเศษ",
+    "หวยฮานอยวีไอพี",
+    "หวยมาเลย์"
+  ];
+
+  const stockLotteries = [
+    "หุ้นนิเคอิเช้า",
+    "หุ้นจีนเช้า",
+    "หุ้นฮั่งเส็งเช้า",
+    "หุ้นไต้หวัน",
+    "หุ้นเกาหลี",
+    "หุ้นนิเคอิบ่าย",
+    "หุ้นจีนบ่าย",
+    "หุ้นฮั่งเส็งบ่าย",
+    "หุ้นสิงคโปร์",
+    "หุ้นไทยเย็น",
+    "หุ้นอินเดีย",
+    "หุ้นอียิป",
+    "หุ้นเยอรมัน",
+    "หุ้นอังกฤษ",
+    "หุ้นรัสเซีย",
+    "หุ้นดาวโจนส์"
+  ];
+
+  function createCard(name) {
+    return `
+      <article class="lottery-card">
+        <div class="card-title">
+          ${name}
+          <div class="draw-date">ผลล่าสุด</div>
+        </div>
+
+        <div class="numbers">
+          <div class="number-box">
+            <div class="number-label">สามตัวบน</div>
+            <div class="number">---</div>
+          </div>
+
+          <div class="number-box">
+            <div class="number-label">สองตัวล่าง</div>
+            <div class="number">--</div>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  document.getElementById("foreign-results").innerHTML =
+    foreignLotteries.map(createCard).join("");
+
+  document.getElementById("stock-results").innerHTML =
+    stockLotteries.map(createCard).join("");
+</script>
+
+</body>
+</html>
